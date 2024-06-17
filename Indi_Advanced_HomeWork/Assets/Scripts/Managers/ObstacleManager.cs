@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class ObstacleManager : MonoBehaviour
 {
-    public GameObject obstaclePrefab;  // 생성할 장애물 프리팹
+    public GameObject obstaclePrefab;
+    public Transform player;
 
-    public readonly float defaultSpawnInterval = 0.1f; // 장애물 생성 간격
+    public readonly float defaultSpawnInterval = 0.1f;
 
-    public float spawnPosX = 0.0f;        // 장애물의 X 좌표
-    public float minZ = -10.0f;        // 장애물의 Z 좌표 범위 (최소값)
-    public float maxZ = 10.0f;         // 장애물의 Z 좌표 범위 (최대값)
+    public float spawnPosX = 0.0f;
+    public float minZ = -10.0f;
+    public float maxZ = 10.0f;
 
     void Start()
     {
@@ -19,7 +20,7 @@ public class ObstacleManager : MonoBehaviour
 
     IEnumerator SpawnObstacles()
     {
-        while (true)
+        while (player)
         {
             float spawnPosZ = Random.Range(minZ, maxZ);
             Vector3 spawnPosition = new Vector3(spawnPosX, 0.5f, spawnPosZ);
