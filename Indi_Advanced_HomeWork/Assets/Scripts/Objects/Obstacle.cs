@@ -7,7 +7,7 @@ public class Obstacle : MonoBehaviour
 {
     private Renderer cubeRenderer;
     private float moveSpeed;
-
+    public Sound sound;
     private void Start()
     {
         moveSpeed = Random.Range(5f, 10f);

@@ -1,19 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-
-public class Sound
-{
-    public string name;
-    public AudioClip clip;
-}
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
 
-    public Sound[] sounds;                      // 사운드 배열
-
+    public List<Sound> sounds;
     public List<AudioSource> audioSources;
 
     void Awake()
@@ -74,10 +68,14 @@ public class SoundManager : MonoBehaviour
     private IEnumerator PlaySFXCoroutine(AudioSource audioSource, AudioClip clip)
     {
         audioSource.gameObject.SetActive(true);
+
+        audioSource.pitch = Random.Range(0.7f, 1.5f);
+        audioSource.dopplerLevel = Random.Range(0.7f, 1.5f);
+
         audioSource.PlayOneShot(clip);
 
-        // 오디오 클립의 길이만큼 대기한 후 비활성화
         yield return new WaitForSeconds(clip.length);
+
         audioSource.gameObject.SetActive(false);
     }
 

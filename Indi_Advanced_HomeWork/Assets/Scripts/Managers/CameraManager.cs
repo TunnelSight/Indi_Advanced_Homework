@@ -12,7 +12,7 @@ public class CameraManager : MonoBehaviour
     {
         offsetDistance = transform.position - playerTransform.position;
     }
-    // Update is called once per frame
+
     void LateUpdate()
     {
         if (!playerTransform) return;
