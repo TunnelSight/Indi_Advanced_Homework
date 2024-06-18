@@ -1,4 +1,4 @@
-# 장애물 피하기
+# 길 건너기
 #### 왼쪽에서 쏟아지는 장애물들을 피해서 전방의 골 지점에 도달하는 게 목표인 게임입니다.
 ![image](https://github.com/TunnelSight/Indi_Advanced_Homework/assets/167070589/ca9c3a21-3165-4be2-9d8e-d9b40cc08254)
 
