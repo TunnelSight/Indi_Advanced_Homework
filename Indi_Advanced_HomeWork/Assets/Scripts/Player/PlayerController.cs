@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
 
     public float moveSpeed = 5f;
+    public Animator animator;
 
     private Vector2 curMovementInput;
     private Rigidbody _rigidbody;
@@ -15,7 +16,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
        _rigidbody = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
+
     private void FixedUpdate()
     {
         Move();
@@ -25,11 +28,14 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
+            animator.SetBool("IsMoving", true);
             curMovementInput = context.ReadValue<Vector2>();
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
+            animator.SetBool("IsMoving", false);
             curMovementInput = Vector2.zero;
+            
         }
     }
 

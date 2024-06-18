@@ -18,14 +18,16 @@ public class ObstacleManager : MonoBehaviour
         StartCoroutine(SpawnObstacles());
     }
 
-    IEnumerator SpawnObstacles()
+    public IEnumerator SpawnObstacles()
     {
         while (player)
         {
             float spawnPosZ = Random.Range(minZ, maxZ);
             Vector3 spawnPosition = new Vector3(spawnPosX, 0.5f, spawnPosZ);
 
-            GameObject newObstacle = Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity);
+            GameObject newObstacle = ObjectPool.instance.GetObject();
+            newObstacle.transform.position = spawnPosition;
+            newObstacle.transform.rotation = Quaternion.identity;
             newObstacle.transform.localScale = new Vector3(Random.Range(0.5f, 2.0f), Random.Range(0.5f, 2.0f), Random.Range(0.5f, 2.0f));
 
             yield return new WaitForSeconds(defaultSpawnInterval * Random.Range(0.8f, 1.2f));

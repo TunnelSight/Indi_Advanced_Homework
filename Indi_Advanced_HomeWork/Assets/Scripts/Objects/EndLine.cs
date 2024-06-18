@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class EndLine : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public ObstacleManager obstacleManager;
+
+    private void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            UIManager.instance.StopTimer();
+            UIManager.instance.ShowClearText();
+            UIManager.instance.ShowUI();
+            obstacleManager.GetComponent<ObstacleManager>().StopAllCoroutines();
+            Destroy(other.gameObject);
+        }
     }
 }

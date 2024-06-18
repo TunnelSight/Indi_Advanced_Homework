@@ -45,4 +45,17 @@ public class ObjectPool : MonoBehaviour
         obj.SetActive(false);
         poolQueue.Enqueue(obj);
     }
+
+    public void DeactivatePoolObjects()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.activeInHierarchy)
+            {
+                child.gameObject.SetActive(false);
+                poolQueue.Enqueue(child.gameObject);
+            }
+        }
+    }
+
 }

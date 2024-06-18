@@ -9,24 +9,22 @@ public class ObstacleRemover : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Obstacle") || other.CompareTag("Player"))
+        Renderer obstacleRenderer = other.GetComponent<Renderer>();
+        if (obstacleRenderer != null)
         {
-            Renderer obstacleRenderer = other.GetComponent<Renderer>();
+            Color obstacleColor = obstacleRenderer.material.color;
 
-            if (obstacleRenderer != null)
+            ParticleSystem.MainModule mainModule = destroyEffect.main;
+            mainModule.startColor = obstacleColor;
+        }
+
+        if (other.CompareTag("Obstacle"))
+        {
+            Obstacle obstacle = other.GetComponent<Obstacle>();
+            if (obstacle != null && obstacle.sound != null)
             {
-                Color obstacleColor = obstacleRenderer.material.color;
-
-                ParticleSystem.MainModule mainModule = destroyEffect.main;
-                mainModule.startColor = obstacleColor;
+                SoundManager.instance.PlaySFX(obstacle.sound.name);
             }
-
-            
-            if (other.gameObject.GetComponent<Obstacle>().sound != null)
-            {
-                SoundManager.instance.PlaySFX(other.gameObject.GetComponent<Obstacle>().sound.name);
-            }
-
 
             if (destroyEffect != null)
             {
@@ -35,7 +33,27 @@ public class ObstacleRemover : MonoBehaviour
                 Destroy(effect.gameObject, effect.main.duration);
             }
 
+            ObjectPool.instance.ReturnObject(other.gameObject);
+        }
+        else if (other.CompareTag("Player"))
+        {
+            UIManager uiManager = UIManager.instance;
+
+            uiManager.StopTimer();
+            uiManager.restartButton.gameObject.SetActive(true);
+            uiManager.exitButton.gameObject.SetActive(true);
+            uiManager.gameOverText.gameObject.SetActive(true);
+
             Destroy(other.gameObject);
+            SoundManager.instance.PlaySFX("Boom");
+
+            if (!other.GetComponent<Player>() || !other.GetComponent<Player>().dieEffectParticle) return;
+
+            ParticleSystem effect = Instantiate(destroyEffect, other.transform.position, Quaternion.identity);
+            effect.Play();
+            Destroy(effect.gameObject, effect.main.duration);
         }
     }
+
+
 }
